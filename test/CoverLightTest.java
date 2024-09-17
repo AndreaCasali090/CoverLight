@@ -78,20 +78,20 @@ public class CoverLightTest {
 		@Test
 		@DisplayName("check graphic slide 2")
 		public void testSlideGUI() {
-			tutorialGUI.getLogic().nextSlide();
-			assertEquals(1, tutorialGUI.getLogic().getSlideNumber(), "Slide number should be 1");
-			assertEquals(tutorialGUI.getSecondSlide(), tutorialGUI.getCurrectSlide(), "Graphic Slide number should be 2");
+			tutorial.nextSlide();
+			assertEquals(1, tutorial.getSlideNumber(), "Slide number should be 1");
+			assertEquals(tutorialGUI.getSecondSlide(), tutorial.getCurrectSlide(), "Graphic Slide number should be 2");
 		}  
 		
 		@Test
 		@DisplayName("check slide after arbitrary movements")
 		public void testSlideGUI2() {
-			tutorialGUI.getLogic().nextSlide();
-			tutorialGUI.getLogic().nextSlide();
-			tutorialGUI.getLogic().nextSlide();
-			tutorialGUI.getLogic().previousSlide();;
-			assertEquals(2, tutorialGUI.getLogic().getSlideNumber(), "Slide number should be 2");
-			assertEquals(tutorialGUI.getThirdSlide(), tutorialGUI.getCurrectSlide(), "Graphic Slide number should be 3");
+			tutorial.nextSlide();
+			tutorial.nextSlide();
+			tutorial.nextSlide();
+			tutorial.previousSlide();
+			assertEquals(2, tutorial.getSlideNumber(), "Slide number should be 2");
+			assertEquals(tutorialGUI.getThirdSlide(), tutorial.getCurrectSlide(), "Graphic Slide number should be 3");
 		}  
      }
 	

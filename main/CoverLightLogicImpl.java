@@ -15,12 +15,12 @@ public class CoverLightLogicImpl {
     private static final int WALL_WIDTH_HIGH = 8;
 	private FloorLogicImpl floorLogic;
 	private CaptionGUI captionGUI;
-	private TutorialGUI tutorialGUI; 
+	private TutorialGUILogicImpl tutorialGUI; 
 	
 	public CoverLightLogicImpl(int WIDTH,int  HEIGHT,int  DIM_SQUARE) {
 		captionGUI = new CaptionGUI(WIDTH, HEIGHT, DIM_SQUARE);
 		floorLogic = new FloorLogicImpl();
-		tutorialGUI = new TutorialGUI();
+		tutorialGUI = new TutorialGUILogicImpl();
 	}
 	
 	public CaptionGUI getCaption() {
@@ -31,7 +31,7 @@ public class CoverLightLogicImpl {
 		return this.floorLogic;
 	}
 	
-	public TutorialGUI getTutorialGUI() {
+	public TutorialGUILogicImpl getTutorialGUI() {
 		return this.tutorialGUI;
 	}
 	

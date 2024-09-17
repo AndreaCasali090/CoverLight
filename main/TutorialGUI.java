@@ -1,8 +1,6 @@
 package main;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*; 
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -16,23 +14,12 @@ public class TutorialGUI {
 	private JPanel secondSlide;
 	private JPanel thirdSlide;
 	private JPanel fourthSlide;
-	private JPanel tutorialGraphicPanel;
-	private JPanel buttonsTutorialGraphicPanel;
-	private TutorialGUILogicImpl logic;
-	private JPanel tutorialContainerPanel;
 	
-	public TutorialGUI() {
-		logic = new TutorialGUILogicImpl();
+	public TutorialGUI() {	
 		setFirstSlide();
 		setSecondSlide();
 		setThirdSlide();
-		setFourthSlide();
-		setTutorialPanel();
-		setButtonsTutorialPanel();
-	}
-
-	public TutorialGUILogicImpl getLogic() {
-		return this.logic;
+		setFourthSlide();		
 	}
 	
 	public JPanel getFirstSlide() {
@@ -385,102 +372,6 @@ public class TutorialGUI {
 		this.fourthSlide = fourthSlidePanel;
 	}
 
-	public JPanel getCurrectSlide() {
-		switch (logic.getSlideNumber()) {
-		case 0:
-			return this.firstSlide;
-		case 1:
-			return this.secondSlide;
-		case 2:
-			return this.thirdSlide;
-		case 3:
-			return this.fourthSlide;
-		}
-		return firstSlide;
-	}
-
-	public String getTitleSlide() {
-		switch (logic.getSlideNumber()) {
-		case 0:
-			return ("Introduzione");
-		case 1:
-			return ("Area di disegno");
-		case 2:
-			return ("Area input");
-		case 3:
-			return ("Area di output");
-		}
-		return "Errore slide non esistente";
-	}
-
-	private void setTutorialPanel() {
-		tutorialContainerPanel = new JPanel(new BorderLayout());					
-		final JPanel tutorialPanelSeparator = new JPanel(new BorderLayout());
-		final JPanel tutorialPanelBorder = new JPanel(new BorderLayout());
-		final JPanel tutorialPanelSpacing = new JPanel(new BorderLayout());
-		tutorialPanelSeparator.add(tutorialContainerPanel);
-		tutorialPanelBorder.add(tutorialPanelSeparator);
-		tutorialPanelSpacing.add(tutorialPanelBorder);				
-		tutorialPanelBorder.setBorder(new LineBorder(Color.BLACK, 2));
-		tutorialPanelSpacing.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-		tutorialContainerPanel.add(getCurrectSlide());
-		this.tutorialGraphicPanel = tutorialPanelSpacing;
-	}
-	
-	public JPanel getTutorialPanel() {
-		return this.tutorialGraphicPanel;
-	}
-	
-	private void setButtonsTutorialPanel() {
-		final JPanel buttonsTutorialPanel = new JPanel(new BorderLayout());
-		final JPanel buttonsTutorialPanelContainer = new JPanel(new BorderLayout());
-		final JPanel buttonsTutorialPanelSpacing = new JPanel(new BorderLayout());
-		final JLabel slideTitle = new JLabel("Introduzione");
-		JPanel slideTitleGB = new JPanel(new GridBagLayout());
-		slideTitleGB.add(slideTitle,new GridBagConstraints());
-		buttonsTutorialPanelContainer.add(buttonsTutorialPanel);
-		buttonsTutorialPanelSpacing.add(buttonsTutorialPanelContainer);
-		final JButton nextBtn = new JButton("Next");
-		final JButton previousBtn = new JButton("Previous");
-		previousBtn.setEnabled(false);
-		buttonsTutorialPanel.add(nextBtn, BorderLayout.LINE_END);
-		buttonsTutorialPanel.add(slideTitleGB, BorderLayout.CENTER);
-		buttonsTutorialPanel.add(previousBtn, BorderLayout.LINE_START);
-		
-		buttonsTutorialPanel.setBorder(BorderFactory.createEmptyBorder(15, 70, 15, 70));
-		buttonsTutorialPanelContainer.setBorder(new LineBorder(Color.BLACK, 1));
-		buttonsTutorialPanelSpacing.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-		
-		nextBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {	
-				logic.nextSlide();
-				logic.buttonsLogic(previousBtn, nextBtn);						
-				tutorialContainerPanel.removeAll();
-				tutorialContainerPanel.add(getCurrectSlide());
-				slideTitle.setText(getTitleSlide());
-				tutorialContainerPanel.revalidate();
-				tutorialContainerPanel.updateUI();
-			}
-		});
-		
-		previousBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {	
-				logic.previousSlide();
-				logic.buttonsLogic(previousBtn, nextBtn);		
-				tutorialContainerPanel.removeAll();
-				tutorialContainerPanel.add(getCurrectSlide());
-				slideTitle.setText(getTitleSlide());
-				tutorialContainerPanel.revalidate();
-				tutorialContainerPanel.updateUI();
-			}
-		});			
-		this.buttonsTutorialGraphicPanel = buttonsTutorialPanelSpacing;
-	}
-	
-	public JPanel getButtonsTutorialPanel() {
-		return this.buttonsTutorialGraphicPanel;
-	}
-	
 	private void appendToPane(JTextPane tp, String msg, Color c) {
 		StyleContext sc = StyleContext.getDefaultStyleContext();
 		AttributeSet attrSet = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, c);
