@@ -1,12 +1,12 @@
-package MyClasses;
+package main;
 
 import java.awt.Point;
 
 public class Emitters {
-	Point position;
-	float potenza;
-	float frequenza;
-	Point angles;
+	private Point position;
+	private float potenza;
+	private float frequenza;
+	private Point angles;
 	
 	public Emitters(Point coordinates, float power, float frequency, int angStart, int angEnd) {
 		position = coordinates;

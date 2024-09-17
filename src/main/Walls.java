@@ -1,10 +1,10 @@
-package MyClasses;
+package main;
 
 import java.awt.geom.Line2D;
 
 public class Walls {
-	Line2D position;
-	String impact;
+	private Line2D position;
+	private String impact;
 	
 	public Walls(Line2D coordinates, String impatto) {
 		position = coordinates;

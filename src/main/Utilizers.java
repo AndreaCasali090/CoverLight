@@ -1,10 +1,9 @@
-package MyClasses;
+package main;
 
 import java.awt.Point;
 
 public class Utilizers {
-	Point position;
-	
+	private Point position;
 
 	public Utilizers(Point coordinates) {
 		position = coordinates;
