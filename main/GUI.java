@@ -767,7 +767,24 @@ public class GUI extends JFrame {
 							wallListDisabledTxtArea.setBorder(new LineBorder(Color.red, 1));
 						}
 					} else {
-						floorLogic.getCurrentFloor().setNewWall(wall, impactSel);
+						boolean changed = false;
+						Dimension area = floorLogic.getCurrentFloor().getCanvas().getArea();
+						
+						int this_width = (xWallE + DIM_SQUARE/2 + 2);
+						if (this_width > area.width) {
+							floorLogic.getCurrentFloor().getCanvas().getArea().width = this_width;
+							changed = true;
+						}
+		
+						int this_height = (yWallE + DIM_SQUARE/2 + 2);
+						if (this_height > area.height) {
+							floorLogic.getCurrentFloor().getCanvas().getArea().height = this_height;
+							changed = true;
+						}
+						if (changed) {
+							floorLogic.getCurrentFloor().getCanvas().setPreferredSize(area);
+							floorLogic.getCurrentFloor().getCanvas().revalidate();
+						}
 						drawPanel.getLogic().copyCanvas(floorLogic.getCurrentFloor().getCanvas().getLogic());
 						drawPanel.setArea(floorLogic.getCurrentFloor().getCanvas().getArea());	
 						drawPanel.setPreferredSize(drawPanel.getArea());

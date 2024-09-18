@@ -40,7 +40,6 @@ public class CanvasPanel extends JPanel {
         Map<Rectangle, Point2D> gEmitters = canvasLogic.getEmitters();
     	Vector<Rectangle> gUtilizers = canvasLogic.getUtilizers();
     	Vector<Rectangle> gWalls = canvasLogic.getWalls();
-    	
 		if(rectangles[0][0] != null) {
 			for(int i = DIM_SQUARE / 2; i < HEIGHT; i += DIM_SQUARE) {
 				for(int j = DIM_SQUARE / 2; j < WIDTH; j += DIM_SQUARE) {
@@ -72,22 +71,20 @@ public class CanvasPanel extends JPanel {
     		g2d.setStroke(WHITE_DASH);
     		g2d.drawRect(x, y, DIM_SQUARE, DIM_SQUARE);
         }
-        
         Rectangle rectW;
         for (int i = 0; i < gWalls.size(); i++) {
             rectW = gWalls.elementAt(i);
+            System.out.println(rectW);
             switch(Math.min(rectW.width, rectW.height)) {
-            	case 5:
+            	case 4:
             		g2d.setColor(Color.GRAY);
             		break;
-            	case 7:
+            	case 6:
             		g2d.setColor(Color.DARK_GRAY);
             		break;
-            	case 9:
+            	case 8:
             		g2d.setColor(Color.BLACK);
             		break;
-        		default:
-        			return;
             }
     		g2d.fillRect(rectW.x, rectW.y, rectW.width, rectW.height);
         }
