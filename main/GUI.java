@@ -51,7 +51,7 @@ public class GUI extends JFrame {
 		final JPanel canvasContainerPanel = new JPanel(new BorderLayout());// panel che contiene lo scroll
 		drawPanel = new CanvasPanel();// panel che contiene il disegno
 		final JScrollPane scrollCanvas = new JScrollPane(canvasContainerPanel);
-		scrollCanvas.setPreferredSize(new Dimension(500, 400));
+		scrollCanvas.setPreferredSize(new Dimension(WIDTH/2, HEIGHT/2));
 		canvasContainerPanel.add(drawPanel);
 
 		// Pulsanti piano
@@ -313,20 +313,20 @@ public class GUI extends JFrame {
 		buttonsPanel.add(panelWall);
 
 		// Panel results
-		CanvasPanel resultPanel = new CanvasPanel();
-		resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.Y_AXIS));
+		JPanel resultPanel = new JPanel(new BorderLayout());
 
 		final JButton generateResult = new JButton("Genera risultato");
 		generateResult.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+		CanvasPanel showResult = new CanvasPanel();// panel per i result
 		final JPanel resultContainerPanel = new JPanel(new BorderLayout());
-		final JScrollPane scrollResult = new JScrollPane(resultContainerPanel);
+		resultContainerPanel.setLayout(new BoxLayout(resultContainerPanel, BoxLayout.Y_AXIS));
+		final JScrollPane scrollResult = new JScrollPane(resultPanel);
 		scrollResult.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-		final JPanel showResult = new JPanel();// panel per i result
-		resultContainerPanel.add(showResult);
-		resultPanel.add(generateResult);
-		resultPanel.add(scrollResult);
+		resultPanel.add(showResult);
+		resultContainerPanel.add(generateResult);
+		resultContainerPanel.add(scrollResult);
 
 		// Panel lists
 		final JPanel listsPanel = new JPanel();
@@ -438,7 +438,7 @@ public class GUI extends JFrame {
 
 		
 		// Setting del frame
-		resultPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 10));
+		resultContainerPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 10));
 		buttonsPanelContainer.setBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0));
 		listsPanel.setBorder(BorderFactory.createEmptyBorder(35, 0, 0, 0));
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -449,7 +449,7 @@ public class GUI extends JFrame {
 		this.getContentPane().add(coverLightPanel);
 		coverLightPanel.add(canvasPanelSeparator);
 		coverLightPanel.add(buttonsPanelContainer);
-		coverLightPanel.add(resultPanel);
+		coverLightPanel.add(resultContainerPanel);
 		coverLightPanel.add(listsPanel);
 
 		
@@ -1144,34 +1144,35 @@ public class GUI extends JFrame {
 							for(int p=-floorLogic.getLowerFloorsSize(); p<floorLogic.getCurrentFloorNumber(); p++) {
 								att_air = Math.max(floorLogic.getFloor(p).getIntensity(i,j)-20*(Math.abs(Math.abs(floorLogic.getCurrentFloorNumber()+floorLogic.getLowerFloorsSize())-Math.abs(p+floorLogic.getLowerFloorsSize()))*3+2.343),MIN_INT);
 								int_em = (int_em + att_air-MIN_INT)/100;
-								System.out.println(floorLogic.getFloor(p).getIntensity(i,j));
 							}
 							int_tot += int_em;
 							int_em = 0;
 							for(int p=floorLogic.getUpperFloorsSize(); p>floorLogic.getCurrentFloorNumber(); p--) {
 								att_air = Math.max(floorLogic.getFloor(p).getIntensity(i,j)-20*(Math.abs(Math.abs(floorLogic.getCurrentFloorNumber()+floorLogic.getLowerFloorsSize())-Math.abs(p+floorLogic.getLowerFloorsSize()))*3+2.343),MIN_INT);
 								int_em = (int_em + att_air-MIN_INT)/100;
-								System.out.println(floorLogic.getFloor(p).getIntensity(i,j));
 							}
 							int_tot += int_em;
 							if(int_tot > 0) {
 								values[i][j] = (int) int_tot;
 								end_result = (int) Math.floor(int_tot);
 							    colour = (int) Math.min(Math.floor(end_result/15),logic.getCaption().getTones().length-1);
-							    resultPanel.setNewRect(i,j,logic.getCaption().getTones()[colour],end_result);
+							    showResult.setNewRect(i,j,logic.getCaption().getTones()[colour],end_result);
 							} else {
 								values[i][j] = 0;
 							}
 						}
 					}
 					if(currentFloorCB.isSelected()) {
-						resultPanel.setValori(values);
+						showResult.setValori(values);
 					} else {
-						resultPanel.setValori(null);
+						showResult.setValori(null);
 					}
-					resultPanel.getLogic().copyCanvas(drawPanel.getLogic());
-					resultPanel.getGraphics().clearRect(0, 0, WIDTH, HEIGHT);
-					resultPanel.paintComponent(resultPanel.getGraphics());
+					showResult.getLogic().copyCanvas(drawPanel.getLogic());
+					showResult.setArea(floorLogic.getCurrentFloor().getCanvas().getArea());	
+					showResult.setPreferredSize(drawPanel.getArea());
+					showResult.revalidate();
+					showResult.getGraphics().clearRect(0, 0, WIDTH, HEIGHT);
+					showResult.paintComponent(showResult.getGraphics());
 				}
 			}
 		});
@@ -1363,7 +1364,7 @@ public class GUI extends JFrame {
 					floorLogic.copyFloor(nuovoPiano);
 					drawPanel = floorLogic.getCurrentFloor().getCanvas();
 					drawPanel.repaint();
-					resultPanel.repaint();
+					showResult.repaint();
 					if (story == -floorLogic.getLowerFloorsSize()) {
 						previousFloorBtn.setText("Crea piano " + (story - 1));
 					} else {

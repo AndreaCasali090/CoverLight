@@ -74,7 +74,6 @@ public class CanvasPanel extends JPanel {
         Rectangle rectW;
         for (int i = 0; i < gWalls.size(); i++) {
             rectW = gWalls.elementAt(i);
-            System.out.println(rectW);
             switch(Math.min(rectW.width, rectW.height)) {
             	case 4:
             		g2d.setColor(Color.GRAY);
